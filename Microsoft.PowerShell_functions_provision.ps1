@@ -1,42 +1,40 @@
 ################################################################################
-## Provisioning Functions
+## Provisioning Function
 ################################################################################
 
-Function Provision-Box{
-    echo
-"////////////////////////////////////////////////////////////////////////////////
-                        Provisioning new box build-out
+# Installs primary software using a GitHub Gist
+Function Provision-Box-Software
+{
+    Write-Host "////////////////////////////////////////////////////////////////////////////////"
+    Write-Host "                        Provisioning new box build-out"
+    Write-Host ""
+    Write-Host "   This script will install software and programs using the Chocolatey package"
+    Write-Host "   manager and Boxstarter automation tool. Both are community-built tools that"
+    Write-Host "   require some level of trust before use. If this doesn't sound like what you"
+    Write-Host "   want to do you should exit now."
+    Write-Host ""
+    Write-Host "   If you would like to customize what gets installed, exit now and open the"
+    Write-Host "   install script and comment-out (or add) packages to your liking. Additional"
+    Write-Host "   information is available at the Boxstarter and Chocolatey websites."
+    Write-Host ""
+    Write-Host "   This script is executing from " $PSScriptRoot "."
+    Write-Host "////////////////////////////////////////////////////////////////////////////////"
 
- This script will install software and programs using the Chocolatey package
- manager. If that's not what you want to do you should exit now. If you want to
- customize what gets installed, exit now and open the script and comment-out
- anything you don't want installed.
+    Write-Host ""
+    Write-Host "Press any key to continue ..."
+    $null = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+    Write-Host ""
 
- This script is executing from $PSScriptRoot
-////////////////////////////////////////////////////////////////////////////////"
+    # Uses Boxstarter (http://boxstarter.org/)
+    # Install script Gist located here: https://gist.github.com/DeadlyBrad42/2782ac9b5a5a5d48fd05
+    # If you want to use your own script, upload it as a Gist and insert your own Raw URL below
+    START http://boxstarter.org/package/url?https://gist.githubusercontent.com/DeadlyBrad42/2782ac9b5a5a5d48fd05/raw/a97208596f88270b1fc990225d7a27611234d473/Provision.ps1
+}
 
-    pause
-
-
-    # Install Chocolatey
-    Invoke-Expression ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
-
-    # Browsers
-    choco install firefox
-    choco install googlechrome
-
-    # Development Tools
-    choco install sublimetext2
-    choco install visualstudiocode
-    choco install visualstudiocommunity2013
-    choco install androidstudio
-    choco install nodejs.install
-    choco install git.install
-    choco install sourcetree
-    choco install virtualbox
-    choco install vagrant
-
-    # NPM packages
+# Installs npm packages that I like
+Function Provision-Box-Npm
+{
+    # Install npm packages
     npm install -g http-server
     npm install -g json-server
     npm install -g grunt-cli
@@ -44,51 +42,18 @@ Function Provision-Box{
     npm install -g typescript
     npm install -g less
     npm install -g yo
-
-    # Game-making
-    choco install blender
-    choco install unity
-    choco install paint.net
-    choco install tiled
-
-    # Game-playing
-    choco install steam
-    choco install origin
-
-    # Misc
-    choco install resophnotes
-    choco install skype
-    choco install qbittorrent
-    choco install lastfmscrobbler
-    choco install dropbox
-    choco install mp3tag
-
-    # Utilities
-    choco install virtualclonedrive
-    choco install imgburn
-    choco install gifcam
-    choco install sumatrapdf
-    choco install winrar
-    choco install 7zip.install
-    choco install malwarebytes
-    choco install ccleaner
-    choco install recuva
-    choco install defraggler
-    choco install winmerge
-    choco install windirstat
-    choco install f.lux
-
-
-    # Manual Installs
-    # Install Office
-    # Install Winamp
-    # Install Soluto
-    # Install Bitcoin
-    # Install Namecoin
-    # Install Veracrypt
-    # Install Minecraft
-    # Install Factorio
-    # Install Xsplit
-    # Install Google Music Manager
-    # Install Pushbullet
 }
+
+# Manual Installs
+# Install Office
+# Install Winamp
+# Install Soluto                    [https://www.soluto.com/]
+# Install Bitcoin                   [https://bitcoin.org/en/]
+# Install Namecoin                  [https://namecoin.info/]
+# Install Veracrypt                 [https://veracrypt.codeplex.com/]
+# Install PowerShell Server         [http://www.powershellserver.com/]
+# Install Google Music Manager      [https://support.google.com/googleplay/answer/1229970?hl=en]
+# Install Pushbullet                [https://www.pushbullet.com/]
+# Install Minecraft                 [https://minecraft.net/]
+# Install Factorio                  [https://www.factorio.com/]
+# Install Xsplit                    [https://www.xsplit.com/download]
