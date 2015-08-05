@@ -4,6 +4,8 @@
 $ui = (Get-Host).UI.RawUI
 $ui.WindowTitle = "POWASHELL"
 
+$PROFILEPATH = Split-Path $profile -Parent
+
 Set-Location B:
 
 
