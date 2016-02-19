@@ -2,6 +2,53 @@
 ## Functions
 ################################################################################
 
+# Custom prompt
+# Modified from https://gist.github.com/branneman/9660173
+function prompt
+{
+    # Grab current git branch
+    $git_string = "";
+    git branch | foreach {
+        if ($_ -match "^\* (.*)") {
+            $git_string += $matches[1]
+        }
+    }
+
+    # Grab current loaction
+    $location = $(get-location).Path;
+
+    Write-Host ("")
+    Write-Host ("[") -nonewline -foregroundcolor Gray
+    Write-Host ([Environment]::UserName) -nonewline -foregroundcolor DarkBlue
+    Write-Host ("@") -nonewline -foregroundcolor DarkBlue
+    Write-Host ([System.Net.Dns]::GetHostName().ToLower()) -nonewline -foregroundcolor DarkBlue
+    Write-Host ("|") -nonewline -foregroundcolor Gray
+    if ($location -eq "B:\") {
+        Write-Host ("~") -nonewline -foregroundcolor DarkGreen
+    } else {
+        Write-Host ($location) -nonewline -foregroundcolor DarkGreen
+    }
+    Write-Host ("]") -nonewline -foregroundcolor Gray
+
+    if ($git_string) {
+        Write-Host (" [") -nonewline -foregroundcolor White
+        Write-Host ("Ѱ") -nonewline -foregroundcolor Cyan
+        Write-Host ($git_string) -nonewline -foregroundcolor Cyan
+        Write-Host ("]") -nonewline -foregroundcolor White
+    }
+
+    # Node (cyan)
+    #if (Test-Path ".\package.json") {
+    #    Write-Host (" node ") -nonewline -foregroundcolor White
+    #    Write-Host (node -v) -nonewline -foregroundcolor Blue
+    #}
+
+    Write-Host ("")
+    Write-Host ("$") -nonewline -foregroundcolor White
+    
+    return " "
+}
+
 # Do some registry magic to import my personal color scheme (based on Base16)
 Function Reset-Theme{
     # Script based on http://poshcode.org/2220
@@ -35,6 +82,17 @@ Function Reset-Theme{
     Write-Host "To propogate these changes, you need to manually re-create all shortcuts to PowerShell"
 }
 
+# Tests color output in PS
+# From http://stackoverflow.com/a/20588680
+function Test-Colors( ) {
+  $colors = [Enum]::GetValues( [ConsoleColor] )
+  $max = ($colors | foreach { "$_ ".Length } | Measure-Object -Maximum).Maximum
+  foreach( $color in $colors ) {
+    Write-Host (" {0,2} {1,$max} " -f [int]$color,$color) -NoNewline
+    Write-Host "$color" -Foreground $color
+  }
+}
+
 # Start Sublime
 function Sublime
 {
@@ -42,7 +100,7 @@ function Sublime
 }
 
 # Get Line of Code
-function LoC ($filetypes) # filetypes like `*.cs,*.json`
+function Lines-of-Code ($filetypes) # filetypes like `*.cs,*.json`
 {
     # Only counts lines with code, *not blank lines*
     $resultFiletypes = "type $filetypes"
@@ -54,6 +112,7 @@ function LoC ($filetypes) # filetypes like `*.cs,*.json`
     $resultCount = (dir -include $filetypes -recurse | select-string .).Count
     Write-Output "Counted $resultCount lines in files of $resultFiletypes."
 }
+Set-Alias LoC Lines-of-Code
 
 # Get Uptime
 function Get-Uptime {
@@ -69,6 +128,7 @@ function google {
     $url = "https://www.google.com/#q=" + $search
     start $url
 }
+Set-Alias google Google
 
 # Pipeline-able Rot13
 function Rot13 { param ([parameter(ValueFromPipeline=$True)][string] $in)
