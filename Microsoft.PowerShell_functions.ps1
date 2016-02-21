@@ -3,7 +3,7 @@
 ################################################################################
 
 # Custom prompt
-# Modified from https://gist.github.com/branneman/9660173
+# Modified (heavily) from https://gist.github.com/branneman/9660173
 function prompt
 {
     $leftCharCount = 0
@@ -56,17 +56,13 @@ function prompt
             $git_changesDisplay = "•"
         }
 
-        # Check if pushes available
+        # Check if pushes or pulls available
         $git_pushes = ""
+        $git_pulls = ""
         git status -sb | foreach {
             if ($_ -match "ahead (\d+)") {
                 $git_pushes = " ↑" + $matches[1]
             }
-        }
-
-        # Check if pulls available
-        $git_pulls = ""
-        git status -sb | foreach {
             if ($_ -match "behind (\d+)") {
                 $git_pulls = " ↓" + $matches[1]
             }
