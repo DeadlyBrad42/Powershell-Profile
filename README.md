@@ -1,5 +1,5 @@
 # Powershell-Profile
-My Powershell profile scripts. Mostly useless helper functions, and a setup for provisioning a new box with common software that I use.
+My Powershell profile scripts. Mostly my prompt and various helper functions of indeterminate usefulness. Also includes a provisioning script that _almost_ (but not quite!) works.
 
 ## Getting Started
 1. Open a new Powershell window and type `cd ~/Documents/WindowsPowerShell` to move to the default profile directory for Powershell
@@ -8,9 +8,8 @@ My Powershell profile scripts. Mostly useless helper functions, and a setup for 
 4. As an optional step, if you're going to be changing the _Microsoft.PowerShell_warppipes.ps1_ file, you'll want to run `git update-index --no-assume-unchanged Microsoft.PowerShell_warppipes.ps1` to ignore any further changes to the file. Don't push anything personal or unique to you up to GitHub!
 
 ## `//TODO`
-* The provision stuff is kind of wonky to use, and is mainly in there just so I have a place to find it when I need it. After all, how can you `git clone` this repo without Git installed?
-* I haven't completely crawled the depths of what Chocolatey or Boxstarter are capable of, so there's probably more software and tweaks that I could add in there. I'll probably be expanding this overtime.
-* Some organization of my Powershell functions would be nice...
+* The provision stuff doesn't quite work. Turns out installing software on Windows (automatically or otherwise) is just kind of a pain. While Chocolatey and Boxstarter are promising projects, I don't think I'd trust any script that claims to automatically provision a box at this point.
+* I need to better organize my functions but ¯\\_(ツ)_/¯
 
 ## License
 Do whatever you want! I'm not responsible for anything that blows up.
