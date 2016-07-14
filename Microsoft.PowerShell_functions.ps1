@@ -34,7 +34,7 @@ function prompt
     $leftCharCount += [System.Net.Dns]::GetHostName().length
     Write-Host (" ] ") -nonewline -foregroundcolor White -backgroundcolor DarkBlue
     $leftCharCount += 3
-    Write-Host ("▓▓▒▒░░") -nonewline
+    Write-Host ("▓▓▒▒░░") -nonewline -foregroundcolor DarkBlue -backgroundcolor Black
     $leftCharCount += 6
 
     if ($isGitRepo) {
@@ -132,7 +132,7 @@ Function Reset-Theme{
         }
     }
 
-    New-ItemProperty . FaceName -PropertyType STRING -Value "Consolas"
+    # New-ItemProperty . FaceName -PropertyType STRING -Value "Consolas"
     Pop-Location
 
     #TODO: Automate
