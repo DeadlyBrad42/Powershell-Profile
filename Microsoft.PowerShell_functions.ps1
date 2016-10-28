@@ -92,15 +92,41 @@ function prompt
     }
 
     Write-Host ("»") -nonewline -foregroundcolor DarkGreen
-    if ($location -eq "C:\Users\$([Environment]::UserName)") {
-        Write-Host ("~\") -nonewline
-    } else {
-        Write-Host ($location) -nonewline
-    }
+    Write-Host ($location) -nonewline
     Write-Host ("»") -nonewline -foregroundcolor DarkGreen
 
     return " "
 }
+
+# Register an event when the session is exited
+Register-EngineEvent PowerShell.Exiting –Action {
+    Write-Host ('')
+    Write-Host ('')
+    Write-Host ('  .d8888b.  8888888888 8888888888      Y88b   d88P  .d88888b.  888     888 ') -foregroundcolor DarkRed
+    Write-Host (' d88P  Y88b 888        888              Y88b d88P  d88P" "Y88b 888     888 ') -foregroundcolor DarkRed
+    Write-Host ('  "Y888b.   8888888    8888888            Y888P    888     888 888     888 ') -foregroundcolor Red
+    Write-Host ('     "Y88b. 888        888                 888     888     888 888     888 ') -foregroundcolor Red
+    Write-Host ('       "888 888        888                 888     888     888 888     888 ') -foregroundcolor DarkYellow
+    Write-Host (' Y88b  d88P 888        888                 888     Y88b. .d88P Y88b. .d88P ') -foregroundcolor DarkYellow
+    Write-Host ('  "Y8888P"  8888888888 8888888888          888      "Y88888P"   "Y88888P"  ') -foregroundcolor Yellow
+    Write-Host ('  .d8888b.  8888888b.     d8888  .d8888b.  8888888888                      ') -foregroundcolor Yellow
+    Write-Host (' d88P  Y88b 888   Y88b   d88888 d88P  Y88b 888                             ') -foregroundcolor Green
+    Write-Host ('  "Y888b.   888   d88P d88P 888 888        8888888                         ') -foregroundcolor Green
+    Write-Host ('     "Y88b. 8888888P" d88P  888 888        888                             ') -foregroundcolor DarkGreen
+    Write-Host ('       "888 888      d88P   888 888    888 888                             ') -foregroundcolor DarkGreen
+    Write-Host (' Y88b  d88P 888     d8888888888 Y88b  d88P 888                             ') -foregroundcolor Blue
+    Write-Host ('  "Y8888P"  888    d88P     888  "Y8888P"  8888888888                      ') -foregroundcolor Blue
+    Write-Host ('  .d8888b.   .d88888b.  888       888 888888b.    .d88888b. Y88b   d88P    ') -foregroundcolor Cyan
+    Write-Host (' d88P  Y88b d88P" "Y88b 888   o   888 888  "88b  d88P" "Y88b Y88b d88P     ') -foregroundcolor Cyan
+    Write-Host (' 888        888     888 888 d888b 888 8888888K.  888     888   Y888P       ') -foregroundcolor DarkCyan
+    Write-Host (' 888        888     888 888d88888b888 888  "Y88b 888     888    888        ') -foregroundcolor DarkCyan
+    Write-Host (' 888    888 888     888 88888P Y88888 888    888 888     888    888        ') -foregroundcolor Magenta
+    Write-Host (' Y88b  d88P Y88b. .d88P 8888P   Y8888 888   d88P Y88b. .d88P    888        ') -foregroundcolor DarkMagenta
+    Write-Host ('  "Y8888P"   "Y88888P"  888P     Y888 8888888P"   "Y88888P"     888        ') -foregroundcolor DarkMagenta
+    Write-Host ('')
+    Write-Host ('')
+    Start-Sleep -s 1
+} > null # This command outputs stuff, so this throws it away
 
 Function Test-Warn {
     Write-Host ("╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲ ▲ Warning! ╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲") -foregroundcolor DarkYellow -backgroundcolor Black
@@ -180,12 +206,10 @@ function Get-Uptime {
 }
 
 # Start a Google search
-function google {
-    $search = $args
+function Google ($search) {
     $url = "https://www.google.com/#q=" + $search
     start $url
 }
-Set-Alias google Google
 
 # Pipeline-able Rot13
 function Rot13 { param ([parameter(ValueFromPipeline=$True)][string] $in)
