@@ -16,7 +16,7 @@ function prompt
         $isGitRepo = "yeah"
     }
 
-    # Grab current loaction
+    # Grab current location
     $location = $(get-location).Path;
 
     Write-Host ("")
@@ -72,7 +72,8 @@ function prompt
         $rightCharCount = "[ Ѱ$($git_changesDisplay) $($git_branchName)$($git_pushes)$($git_pulls) ] ".length
 
         # Write spaces for padding, so that the display is right-aligned
-        $middleCharCount = $ui.WindowSize.Width - $leftCharCount - $rightCharCount
+        # "4" is a magic number, seems like somethng changed with the way Powershell renders special characters like the "gradient" boxes used above ¯\_(ツ)_/¯
+        $middleCharCount = $ui.WindowSize.Width - ($leftCharCount + $rightCharCount) - 4
         for ($i=1; $i -le $middleCharCount; $i++)
         {
             Write-Host (" ") -nonewline
@@ -219,7 +220,7 @@ function Rot13 { param ([parameter(ValueFromPipeline=$True)][string] $in)
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"[$i],
             "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm"[$i])
     }
-    
+
     $out = New-Object System.Text.StringBuilder
     $in.ToCharArray() | %{
         $char = if ($table.ContainsKey($_)) {$table[$_]} else {$_}
@@ -294,7 +295,7 @@ function Flip-Text { param ([parameter(ValueFromPipeline=$True)][string] $in)
     $table.Add([char]'<', [char]'>')
     $table.Add([char]'_', [char]0x203E)
     $table.Add([char]' ', [char]' ')
-    
+
     $out = New-Object System.Text.StringBuilder
     $in.ToCharArray() | %{
         $char = if ($table.ContainsKey($_)) {$table[$_]} else {$_}
