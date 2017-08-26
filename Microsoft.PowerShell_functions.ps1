@@ -34,8 +34,9 @@ function prompt
     $leftCharCount += [System.Net.Dns]::GetHostName().length
     Write-Host (" ] ") -nonewline -foregroundcolor White -backgroundcolor DarkBlue
     $leftCharCount += 3
-    Write-Host ("▓▓▒▒░░") -nonewline -foregroundcolor DarkBlue -backgroundcolor Black
-    $leftCharCount += 6
+    # Finally removed the fade: Too many rendering issues
+    #Write-Host ("▓▓▒▒░░") -nonewline -foregroundcolor DarkBlue -backgroundcolor Black
+    #$leftCharCount += 6
 
     if ($isGitRepo) {
         # Grab current branch
@@ -73,7 +74,7 @@ function prompt
 
         # Write spaces for padding, so that the display is right-aligned
         # "4" is a magic number, seems like somethng changed with the way Powershell renders special characters like the "gradient" boxes used above ¯\_(ツ)_/¯
-        $middleCharCount = $ui.WindowSize.Width - ($leftCharCount + $rightCharCount) - 4
+        $middleCharCount = $ui.WindowSize.Width - ($leftCharCount + $rightCharCount) #- 4
         for ($i=1; $i -le $middleCharCount; $i++)
         {
             Write-Host (" ") -nonewline
