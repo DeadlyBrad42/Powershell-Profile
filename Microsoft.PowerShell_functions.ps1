@@ -141,6 +141,10 @@ Function Reset-Theme{
     Push-Location
     Set-Location HKCU:\Console
 
+    # from: http://www.leeholmes.com/blog/2008/06/01/powershells-noble-blue/
+    # New-Item ".\%SystemRoot%_system32_WindowsPowerShell_v1.0_powershell.exe"
+    Set-Location ".\%SystemRoot%_system32_WindowsPowerShell_v1.0_powershell.exe"
+
     # Colors - They're stored as little-endian because why not I guess
     $colors = @(
         0x00151515, 0x0097814C, 0x003B8B72, 0x00808000,
