@@ -136,43 +136,6 @@ Function Test-Warn {
     Write-Host ("╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲ ▲ Warning! ╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲") -foregroundcolor DarkYellow -backgroundcolor Black
 }
 
-# Do some registry magic to import my personal color scheme (based on Base16)
-Function Reset-Theme{
-    # Script based on http://poshcode.org/2220
-    Set-StrictMode -Version Latest
-    Push-Location
-    Set-Location HKCU:\Console
-
-    # from: http://www.leeholmes.com/blog/2008/06/01/powershells-noble-blue/
-    # New-Item ".\%SystemRoot%_system32_WindowsPowerShell_v1.0_powershell.exe"
-    Set-Location ".\%SystemRoot%_system32_WindowsPowerShell_v1.0_powershell.exe"
-
-    # Colors - They're stored as little-endian because why not I guess
-    $colors = @(
-        0x00151515, 0x0097814C, 0x003B8B72, 0x00808000,
-        0x0024238E, 0x0081578C, 0x004584D2, 0x00D0D0D0,
-        0x00505050, 0x00AAB575, 0x0059A990, 0x00B59F6A,
-        0x004241AC, 0x009F75AA, 0x0075BFF4, 0x00F5F5F5
-    )
-    for ($index = 0; $index -lt $colors.Length; $index++) {
-        $keyExists = Get-Item -LiteralPath . -ErrorAction SilentlyContinue
-        if(-Not $keyExists) {
-            #Write-Host "key does not exist"
-            New-ItemProperty . -Name ("ColorTable" + $index.ToString("00")) -PropertyType DWORD -Value $colors[$index]
-        }
-        Else {
-            #Write-Host "key exists, will be re-written"
-            Set-itemProperty . -Name ("ColorTable" + $index.ToString("00")) -Value $colors[$index]
-        }
-    }
-
-    # New-ItemProperty . FaceName -PropertyType STRING -Value "Consolas"
-    Pop-Location
-
-    #TODO: Automate
-    Write-Host "To propogate these changes, you need to manually re-create all shortcuts to PowerShell"
-}
-
 # Tests color output in PS
 # From http://stackoverflow.com/a/20588680
 function Test-Colors( ) {
