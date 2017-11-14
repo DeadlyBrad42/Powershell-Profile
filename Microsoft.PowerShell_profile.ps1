@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 ## General PowerShell Stuff
 ################################################################################
 param([String]$clientType)
@@ -26,9 +26,6 @@ If(-Not $clientType) {
 
 # General Functions
 . "$PSScriptRoot\Microsoft.PowerShell_functions.ps1"
-
-# Functions for provisioning new installs
-. "$PSScriptRoot\Microsoft.PowerShell_functions_provision.ps1"
 
 # Shortcuts to other directories and network shares
 . "$PSScriptRoot\Microsoft.PowerShell_warppipes.ps1"
