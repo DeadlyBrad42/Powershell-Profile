@@ -130,7 +130,7 @@ Register-EngineEvent PowerShell.Exiting –Action {
     Write-Host ('')
     Write-Host ('')
     Start-Sleep -s 1
-} > null # This command outputs stuff, so this throws it away
+} | Out-Null # This command outputs stuff, so this throws it away
 
 Function Test-Warn {
     Write-Host ("╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲ ▲ Warning! ╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲") -foregroundcolor DarkYellow -backgroundcolor Black
