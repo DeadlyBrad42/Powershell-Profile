@@ -14,8 +14,8 @@ $currentPrincipal = New-Object Security.Principal.WindowsPrincipal( [Security.Pr
 $isAdmin = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
 If(-Not $clientType) {
-    Write-Host ("   | (• ͜•)|╯") -nonewline -foregroundcolor White
-    Write-Host ("╰(⃝ᴥ⃝ʋ)") -nonewline -foregroundcolor Yellow
+    Write-Host ("   | (• ◡•)|╯") -nonewline -foregroundcolor White
+    Write-Host ("╰(❍ᴥ❍ʋ)") -nonewline -foregroundcolor Yellow
     Write-Host ("    <(Let's go kick their digital bootays!)") -nonewline
     Write-Host ("")
 }
