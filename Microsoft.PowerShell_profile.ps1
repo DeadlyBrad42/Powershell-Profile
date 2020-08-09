@@ -29,3 +29,6 @@ If(-Not $clientType) {
 
 # Shortcuts to other directories and network shares
 . "$PSScriptRoot\Microsoft.PowerShell_warppipes.ps1"
+
+# Scripts & functions for provisioning new systems
+. "$PSScriptRoot\Microsoft.PowerShell_provision.ps1"
