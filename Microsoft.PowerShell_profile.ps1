@@ -17,7 +17,7 @@ if ($(pwd).Path -eq $home) {
     Set-Location B:
 }
 
-If(-Not $clientType) {
+if (-Not $clientType) {
     Write-Host ("   | (• ◡•)|╯") -nonewline -foregroundcolor White
     Write-Host ("╰(❍ᴥ❍ʋ)") -nonewline -foregroundcolor Yellow
     Write-Host ("    <(Let's go kick their digital bootays!)") -nonewline

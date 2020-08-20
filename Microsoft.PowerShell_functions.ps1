@@ -12,7 +12,7 @@ function prompt
 
     # Grab current git branch
     $isGitRepo = ""
-    if(Test-Path .git) {
+    if (Test-Path .git) {
         $isGitRepo = "yeah"
     }
 
