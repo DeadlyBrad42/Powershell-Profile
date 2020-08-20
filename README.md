@@ -1,15 +1,18 @@
 # Powershell-Profile
-My Powershell profile scripts. Mostly my prompt and various helper functions of indeterminate usefulness. Also includes a provisioning script that _almost_ (but not quite!) works.
+My Powershell profile scripts. This repo mostly consists of my prompt, a pile of helpful & less-than-helpful utility functions, and a provisioning script using the command-line installer [Scoop](https://scoop.sh/).
+
+![A preview of my Powershell prompt](/assets/profile-preview.png)
 
 ## Getting Started
-1. Open a new Powershell window and type `cd ~/Documents/WindowsPowerShell` to move to the default profile directory for Powershell
-2. Clone the repo into the current directory by typing `git clone git@github.com:DeadlyBrad42/Powershell-Profile.git .`. The period at the end is what tells Git to not create a new subdirectory for the project.
-3. That's it! Restart Powershell and the new functions will be available to you.
-4. As an optional step, if you're going to be changing the _Microsoft.PowerShell_warppipes.ps1_ file, you'll want to run `git update-index --no-assume-unchanged Microsoft.PowerShell_warppipes.ps1` to ignore any further changes to the file. Don't push anything personal or unique to you up to GitHub!
+1. Open a new Powershell window and head into the _Documents_ folder for your current user: `cd ~/Documents/`
+1. Clone this repo into a new directory named _WindowsPowerShell_: `git clone git@github.com:DeadlyBrad42/Powershell-Profile.git WindowsPowerShell`
+1. That's it! Run `. $profile` to reload profile scripts, and the new functions should be available to you.
+* As an optional step, if you're going to be editing the _Microsoft.PowerShell_warppipes.ps1_ file, you'll want to run `git update-index --assume-unchanged Microsoft.PowerShell_warppipes.ps1` to ignore any further changes to the file. This way, you won't accidentally push anything personal up to GitHub! :)
 
-## `//TODO`
-* The provision stuff doesn't quite work. Turns out installing software on Windows (automatically or otherwise) is just kind of a pain. While Chocolatey and Boxstarter are promising projects, I don't think I'd trust any script that claims to automatically provision a box at this point.
-* I need to better organize my functions but ¯\\_(ツ)_/¯
+## Provisioning Script
+If you're building out a new machine, you can use my provisioning scripts to bootstrap the install process with a lot of the common software I use. It's also a handy starting point if you want to build your own.
+
+To start the process, run the following command in an elevated terminal: `Provision-New-Box`
 
 ## License
 Do whatever you want! I'm not responsible for anything that blows up.

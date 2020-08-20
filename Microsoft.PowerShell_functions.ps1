@@ -12,7 +12,7 @@ function prompt
 
     # Grab current git branch
     $isGitRepo = ""
-    if(Test-Path .git) {
+    if (Test-Path .git) {
         $isGitRepo = "yeah"
     }
 
@@ -130,7 +130,7 @@ Register-EngineEvent PowerShell.Exiting –Action {
     Write-Host ('')
     Write-Host ('')
     Start-Sleep -s 1
-} > null # This command outputs stuff, so this throws it away
+} | Out-Null # This command outputs stuff, so this throws it away
 
 Function Test-Warn {
     Write-Host ("╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲ ▲ Warning! ╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲╲") -foregroundcolor DarkYellow -backgroundcolor Black
@@ -167,6 +167,12 @@ function Lines-of-Code ($filetypes) # filetypes like `*.cs,*.json`
     Write-Output "Counted $resultCount lines in files of $resultFiletypes."
 }
 Set-Alias LoC Lines-of-Code
+
+Function Reload-Powershell {
+    # Reload the profile & path variable (from: https://stackoverflow.com/a/31845512)
+    . $profile
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+}
 
 # Get Uptime
 function Get-Uptime {
