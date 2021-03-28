@@ -48,6 +48,7 @@ Function Provision-New-Box
     Provision-New-Box--InstallPackages--Phase2
     Provision-New-Box--ConfigurePackages
     Provision-New-Box--InstallWinPackages
+    Provision-New-Box--ConfigurePrefs
 
     Write-Host ""
     Write-Host ""
@@ -95,6 +96,8 @@ Function Provision-New-Box--InstallPackages--Phase1
     scoop install handbrake                 # Handbrake
     scoop install speccy                    # speecy
     scoop install firacode                  # Fira Code font
+    scoop install figlet                    # Figlet
+    # scoop install mp3tag                  # Mp3tag
     Write-Host "... done!"
     Write-Host ""
 }
@@ -188,6 +191,17 @@ Function Provision-New-Box--InstallWinPackages
     Write-Host "[ ]  File Manager [Microsoft.WindowsFileManager]"
 
     Write-Host "Well, the was awkward. Anyways..."
+    Write-Host "... done!"
+    Write-Host ""
+}
+
+Function Provision-New-Box--ConfigurePrefs
+{
+    Write-Host "Configurating preferences ..."
+    git config --global init.defaultBranch main
+    git config --global alias.what status -sb
+    git config --global alias.andthis commit --amend --no-edit
+    git config --global alias.thistoo commit --amend --no-edit
     Write-Host "... done!"
     Write-Host ""
 }
