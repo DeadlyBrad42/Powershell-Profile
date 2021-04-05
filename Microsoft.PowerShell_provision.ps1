@@ -181,14 +181,17 @@ Function Provision-New-Box--InstallWinPackages
     Write-Host "Normally, this should be called from the 'InstallPackages' step, but"
     Write-Host "The windows store doesn't yet support automated downloads. But here's the list:"
 
+    # You can run this in an elevated command prompt to see what's currently installed:
+    #   Get-AppxPackage -AllUsers | Select Name, PackageFullName
     Write-Host "[ ]  OneNote  [Microsoft.Office.OneNote]"
     Write-Host "[ ]  To Do  [Microsoft.Todos]"
     Write-Host "[ ]  Minecraft for Windows 10  [Microsoft.MinecraftUWP]"
     Write-Host "[ ]  Slack  [91750D7E.Slack]"
-    Write-Host "[ ]  Paint.net [dotPDNLLC.paint.net]"
-    Write-Host "[ ]  Simplenote [22490Automattic.Simplenote]"
-    Write-Host "[ ]  Windows Terminal [WindowsTerminalDev]"
-    Write-Host "[ ]  File Manager [Microsoft.WindowsFileManager]"
+    Write-Host "[ ]  Paint.net  [dotPDNLLC.paint.net]"
+    Write-Host "[ ]  Simplenote  [22490Automattic.Simplenote]"
+    Write-Host "[ ]  Windows Terminal  [WindowsTerminalDev]"
+    Write-Host "[ ]  File Manager  [Microsoft.WindowsFileManager]"
+    Write-Host "[ ]  Python  [PythonSoftwareFoundation.Python.3.9]"
 
     Write-Host "Well, the was awkward. Anyways..."
     Write-Host "... done!"
