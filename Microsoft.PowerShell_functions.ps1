@@ -1,4 +1,4 @@
-################################################################################
+﻿################################################################################
 ## Functions
 ################################################################################
 
@@ -19,15 +19,20 @@ function prompt
     $colorGitPulls = "Red"
     $colorPathSeperatorArrow = "DarkGreen"
 
-    # Quick check to see if we're in a git directory
-    # TODO: this only works in the root of a git project
-    $isGitRepo = ""
-    if (Test-Path .git) {
-        $isGitRepo = "yeah"
-    }
-
     # Grab current location
-    $location = $(get-location).Path;
+    $location = $(Get-Location).Path
+
+    # Check to see if we're in a git directory
+    $isGitRepo = ""
+    do {
+        if (Test-Path .git) {
+            $isGitRepo = "yeah"
+            break
+        }
+
+        Set-Location -Path ..
+    } until ((Get-Location | Split-Path) -eq "")
+    Set-Location $location
 
     # Grab some user/domain info
     $userNameDisplay = [Environment]::UserName
