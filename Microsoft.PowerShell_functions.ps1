@@ -6,11 +6,20 @@
 # Modified (heavily) from https://gist.github.com/branneman/9660173
 function prompt
 {
-    $leftCharCount = 0
-    $middleCharCount = 0
-    $rightCharCount = 0
+    # Color "configuration"
+    #   Give `[enum]::GetValues([System.ConsoleColor]) | Foreach-Object {Write-Host $_ -ForegroundColor $_ }` a try if you want to see your options
+    $colorForegroundPrimary = "White"
+    $colorForegroundSecondary = "Gray"
+    $colorBackgroundBanner = "DarkBlue"
+    $colorHighlight = "DarkYellow" # used for the adminSymbol
+    $colorGitSymbol = "DarkGray"
+    $colorGitChangeIndicator = "DarkGreen"
+    $colorGitPushes = "Green"
+    $colorGitPulls = "Red"
+    $colorPathSeperatorArrow = "DarkGreen"
 
-    # Grab current git branch
+    # Quick check to see if we're in a git directory
+    # TODO: this only works in the root of a git project
     $isGitRepo = ""
     if (Test-Path .git) {
         $isGitRepo = "yeah"
@@ -19,83 +28,79 @@ function prompt
     # Grab current location
     $location = $(get-location).Path;
 
-    Write-Host ("")
-    Write-Host (" [ ") -nonewline -foregroundcolor White -backgroundcolor DarkBlue
-    $leftCharCount += 3
-    Write-Host ([Environment]::UserName) -nonewline -foregroundcolor White -backgroundcolor DarkBlue
-    $leftCharCount += [Environment]::UserName.length
+    # Grab some user/domain info
+    $userNameDisplay = [Environment]::UserName
+    $machineNameDisplay = [System.Net.Dns]::GetHostName()
+    $userAdminDisplay = ""
     if ($isAdmin) {
-        Write-Host ("†") -nonewline -foregroundcolor DarkYellow -backgroundcolor DarkBlue
-        $leftCharCount += 1
+        $userAdminDisplay = "†"
     }
-    Write-Host (" @") -nonewline -foregroundcolor Gray -backgroundcolor DarkBlue
-    $leftCharCount += 2
-    Write-Host ([System.Net.Dns]::GetHostName()) -nonewline -foregroundcolor White -backgroundcolor DarkBlue
-    $leftCharCount += [System.Net.Dns]::GetHostName().length
-    Write-Host (" ] ") -nonewline -foregroundcolor White -backgroundcolor DarkBlue
-    $leftCharCount += 3
-    # Finally removed the fade: Too many rendering issues
-    #Write-Host ("▓▓▒▒░░") -nonewline -foregroundcolor DarkBlue -backgroundcolor Black
-    #$leftCharCount += 6
+
+    Write-Host ("") # newline
+    Write-Host (" [ ") -nonewline -foregroundcolor $colorForegroundSecondary -backgroundcolor $colorBackgroundBanner
+    Write-Host ($userNameDisplay) -nonewline -foregroundcolor $colorForegroundPrimary -backgroundcolor $colorBackgroundBanner
+    Write-Host ($userAdminDisplay) -nonewline -foregroundcolor $colorHighlight -backgroundcolor $colorBackgroundBanner
+    Write-Host (" @") -nonewline -foregroundcolor $colorForegroundSecondary  -backgroundcolor $colorBackgroundBanner
+    Write-Host ($machineNameDisplay) -nonewline -foregroundcolor $colorForegroundPrimary -backgroundcolor $colorBackgroundBanner
+    Write-Host (" ] ") -nonewline -foregroundcolor $colorForegroundSecondary -backgroundcolor $colorBackgroundBanner
 
     if ($isGitRepo) {
         # Grab current branch
         $git_branchName = "";
-        git branch | foreach {
+        $git_branches = git branch
+        $git_branches | ForEach-Object {
             if ($_ -match "^\* (.*)") {
                 $git_branchName += $matches[1]
             }
         }
 
         # Check if workspace has changes
-        $git_changes = 0
-        $git_changesDisplay = ""
-        git status --porcelain | foreach {
-            $git_changes++
+        $git_status = git status -sb
+        $git_changeCount = -1 # Start at -1 to account for 1st line of `git status -sb` output
+        $git_pushesDisplay = ""
+        $git_pullsDisplay = ""
+
+        $git_status | ForEach-Object {
+            $git_changeCount++
+
+            if ($_ -match "ahead (\d+)") {
+                $git_pushesDisplay = " ↑" + $matches[1]
+            }
+
+            if ($_ -match "behind (\d+)") {
+                $git_pullsDisplay = " ↓" + $matches[1]
+            }
         }
-        if ($git_changes -gt 0) {
+
+        $git_changesDisplay = ""
+        if ($git_changeCount -gt 0) {
             $git_changesDisplay = "•"
         }
 
-        # Check if pushes or pulls available
-        $git_pushes = ""
-        $git_pulls = ""
-        git status -sb | foreach {
-            if ($_ -match "ahead (\d+)") {
-                $git_pushes = " ↑" + $matches[1]
-            }
-            if ($_ -match "behind (\d+)") {
-                $git_pulls = " ↓" + $matches[1]
-            }
-        }
-
-        # Calculate length of git display (by making a new string)
-        $rightCharCount = "[ Ѱ$($git_changesDisplay) $($git_branchName)$($git_pushes)$($git_pulls) ] ".length
+        # Calculate length of displays (cleaner to just build the strings & test length)
+        $leftCharCount = " [ $userNameDisplay$userAdminDisplay @$machineNameDisplay ] ".length
+        $rightCharCount = "[ Ѱ$($git_changesDisplay) $($git_branchName)$($git_pushesDisplay)$($git_pullsDisplay) ] ".length
+        $middleCharCount = $ui.WindowSize.Width - ($leftCharCount + $rightCharCount)
 
         # Write spaces for padding, so that the display is right-aligned
-        # "4" is a magic number, seems like somethng changed with the way Powershell renders special characters like the "gradient" boxes used above ¯\_(ツ)_/¯
-        $middleCharCount = $ui.WindowSize.Width - ($leftCharCount + $rightCharCount) #- 4
-        for ($i=1; $i -le $middleCharCount; $i++)
-        {
-            Write-Host (" ") -nonewline
-        }
+        Write-Host (" " * $middleCharCount) -nonewline
 
         # Actually output the git display
-        Write-Host ("[ ") -nonewline
-        Write-Host ("Ѱ") -nonewline -foregroundcolor DarkGray
-        Write-Host ($git_changesDisplay) -nonewline -foregroundcolor DarkGreen
-        Write-Host (" $git_branchName") -nonewline
-        Write-Host ("$git_pushes") -nonewline -foregroundColor Green
-        Write-Host ("$git_pulls") -nonewline -foregroundColor Red
-        Write-Host (" ] ") -nonewline
+        Write-Host ("[ ") -nonewline -foregroundColor $colorForegroundSecondary
+        Write-Host ("Ѱ") -nonewline -foregroundcolor $colorGitSymbol
+        Write-Host ($git_changesDisplay) -nonewline -foregroundcolor $colorGitChangeIndicator
+        Write-Host (" $git_branchName") -nonewline -foregroundColor $colorForegroundPrimary
+        Write-Host ($git_pushesDisplay) -nonewline -foregroundColor $colorGitPushes
+        Write-Host ($git_pullsDisplay) -nonewline -foregroundColor $colorGitPulls
+        Write-Host (" ] ") -nonewline  -foregroundColor $colorForegroundSecondary
     } else {
         # No alternate display, just send a newline
         Write-Host ("")
     }
 
-    Write-Host ("»") -nonewline -foregroundcolor DarkGreen
-    Write-Host ($location) -nonewline
-    Write-Host ("»") -nonewline -foregroundcolor DarkGreen
+    Write-Host ("»") -nonewline -foregroundcolor $colorPathSeperatorArrow
+    Write-Host ($location) -nonewline -foregroundColor $colorForegroundPrimary
+    Write-Host ("»") -nonewline -foregroundcolor $colorPathSeperatorArrow
 
     return " "
 }
