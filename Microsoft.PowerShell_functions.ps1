@@ -1,9 +1,10 @@
-﻿################################################################################
+################################################################################
 ## Functions
 ################################################################################
 
 # Custom prompt
-# Modified (heavily) from https://gist.github.com/branneman/9660173
+#   References:
+#    * https://gist.github.com/branneman/9660173
 function prompt
 {
     # Color "configuration"
@@ -46,7 +47,7 @@ function prompt
 
     if ($isGitRepo) {
         # Grab current branch
-        $git_branchName = "";
+        $git_branchName = ""
         $git_branches = git branch
         $git_branches | ForEach-Object {
             if ($_ -match "^\* (.*)") {
@@ -163,7 +164,7 @@ function Lines-of-Code ($filetypes) # filetypes like `*.cs,*.json`
 {
     # Only counts lines with code, *not blank lines*
     $resultFiletypes = "type $filetypes"
-    If($filetypes -eq $null)
+    if ($filetypes -eq $null)
     {
         Write-Output "Counting all lines from all filetypes. You can change this by supplying a filetype argument like *.cs,*.json"
         $resultFiletypes = "all types"
@@ -284,7 +285,7 @@ function Flip-Text { param ([parameter(ValueFromPipeline=$True)][string] $in)
     }
 
     # Reverse string and print
-    $out = $out.ToString();
+    $out = $out.ToString()
     $out = -join $out[-1..-$out.Length]
     Write-Output $out
 }
