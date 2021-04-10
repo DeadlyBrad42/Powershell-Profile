@@ -12,9 +12,11 @@ $isAdmin = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::A
 $PROFILEPATH = Split-Path $profile -Parent
 
 # I like starting my terminal in my B: drive, rather than $home
-# Idk a better way to do this 😖
-if ($(pwd).Path -eq $home) {
-    Set-Location B:
+if ($(Get-Location).Path -eq $home) {
+    $homeDrive = "B:"
+    if(Test-Path $homeDrive) {
+        Set-Location $homeDrive
+    }
 }
 
 if (-Not $clientType) {
