@@ -151,7 +151,7 @@ Function Test-Warn {
 # From http://stackoverflow.com/a/20588680
 function Test-Colors( ) {
   $colors = [Enum]::GetValues( [ConsoleColor] )
-  $max = ($colors | foreach { "$_ ".Length } | Measure-Object -Maximum).Maximum
+  $max = ($colors | ForEach-Object { "$_ ".Length } | Measure-Object -Maximum).Maximum
   foreach( $color in $colors ) {
     Write-Host (" {0,2} {1,$max} " -f [int]$color,$color) -NoNewline
     Write-Host "$color" -Foreground $color
@@ -169,7 +169,7 @@ function Lines-of-Code ($filetypes) # filetypes like `*.cs,*.json`
 {
     # Only counts lines with code, *not blank lines*
     $resultFiletypes = "type $filetypes"
-    if ($filetypes -eq $null)
+    if ($null -eq $filetypes)
     {
         Write-Output "Counting all lines from all filetypes. You can change this by supplying a filetype argument like *.cs,*.json"
         $resultFiletypes = "all types"
@@ -196,7 +196,7 @@ function Get-Uptime {
 # Start a Google search
 function Google ($search) {
     $url = "https://www.google.com/#q=" + $search
-    start $url
+    Start-Process $url
 }
 
 # Pipeline-able Rot13
@@ -209,7 +209,7 @@ function Rot13 { param ([parameter(ValueFromPipeline=$True)][string] $in)
     }
 
     $out = New-Object System.Text.StringBuilder
-    $in.ToCharArray() | %{
+    $in.ToCharArray() | ForEach-Object {
         $char = if ($table.ContainsKey($_)) {$table[$_]} else {$_}
         $out.Append($char) | Out-Null
     }
@@ -284,7 +284,7 @@ function Flip-Text { param ([parameter(ValueFromPipeline=$True)][string] $in)
     $table.Add([char]' ', [char]' ')
 
     $out = New-Object System.Text.StringBuilder
-    $in.ToCharArray() | %{
+    $in.ToCharArray() | ForEach-Object {
         $char = if ($table.ContainsKey($_)) {$table[$_]} else {$_}
         $out.Append($char) | Out-Null
     }
@@ -298,7 +298,7 @@ function Flip-Text { param ([parameter(ValueFromPipeline=$True)][string] $in)
 function Fuck-You { param ([parameter(ValueFromPipeline=$True)][string] $in)
     try
     {
-        kill -processname $in -ErrorAction Stop
+        Stop-Process -processname $in -ErrorAction Stop
         $tableFlipGuy = "(╯°□°）╯︵"
         Write-Host " $tableFlipGuy $(Flip-Text $in)"
     }
