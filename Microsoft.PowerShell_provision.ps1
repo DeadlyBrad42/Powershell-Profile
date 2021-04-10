@@ -48,6 +48,7 @@ Function Provision-New-Box
     Provision-New-Box--InstallPackages--Phase2
     Provision-New-Box--ConfigurePackages
     Provision-New-Box--InstallWinPackages
+    Provision-New-Box--ConfigurePrefs
 
     Write-Host ""
     Write-Host ""
@@ -95,6 +96,8 @@ Function Provision-New-Box--InstallPackages--Phase1
     scoop install handbrake                 # Handbrake
     scoop install speccy                    # speecy
     scoop install firacode                  # Fira Code font
+    scoop install figlet                    # Figlet
+    # scoop install mp3tag                  # Mp3tag
     Write-Host "... done!"
     Write-Host ""
 }
@@ -178,16 +181,30 @@ Function Provision-New-Box--InstallWinPackages
     Write-Host "Normally, this should be called from the 'InstallPackages' step, but"
     Write-Host "The windows store doesn't yet support automated downloads. But here's the list:"
 
+    # You can run this in an elevated command prompt to see what's currently installed:
+    #   Get-AppxPackage -AllUsers | Select Name, PackageFullName
     Write-Host "[ ]  OneNote  [Microsoft.Office.OneNote]"
     Write-Host "[ ]  To Do  [Microsoft.Todos]"
     Write-Host "[ ]  Minecraft for Windows 10  [Microsoft.MinecraftUWP]"
     Write-Host "[ ]  Slack  [91750D7E.Slack]"
-    Write-Host "[ ]  Paint.net [dotPDNLLC.paint.net]"
-    Write-Host "[ ]  Simplenote [22490Automattic.Simplenote]"
-    Write-Host "[ ]  Windows Terminal [WindowsTerminalDev]"
-    Write-Host "[ ]  File Manager [Microsoft.WindowsFileManager]"
+    Write-Host "[ ]  Paint.net  [dotPDNLLC.paint.net]"
+    Write-Host "[ ]  Simplenote  [22490Automattic.Simplenote]"
+    Write-Host "[ ]  Windows Terminal  [WindowsTerminalDev]"
+    Write-Host "[ ]  File Manager  [Microsoft.WindowsFileManager]"
+    Write-Host "[ ]  Python  [PythonSoftwareFoundation.Python.3.9]"
 
     Write-Host "Well, the was awkward. Anyways..."
+    Write-Host "... done!"
+    Write-Host ""
+}
+
+Function Provision-New-Box--ConfigurePrefs
+{
+    Write-Host "Configurating preferences ..."
+    git config --global init.defaultBranch main
+    git config --global alias.what status -sb
+    git config --global alias.andthis commit --amend --no-edit
+    git config --global alias.thistoo commit --amend --no-edit
     Write-Host "... done!"
     Write-Host ""
 }
