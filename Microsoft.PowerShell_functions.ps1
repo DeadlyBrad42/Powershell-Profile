@@ -42,6 +42,7 @@ function prompt
         $userAdminDisplay = "†"
     }
 
+    # Output the user/domain banner
     Write-Host ("") # newline
     Write-Host (" [ ") -nonewline -foregroundcolor $colorForegroundSecondary -backgroundcolor $colorBackgroundBanner
     Write-Host ($userNameDisplay) -nonewline -foregroundcolor $colorForegroundPrimary -backgroundcolor $colorBackgroundBanner
