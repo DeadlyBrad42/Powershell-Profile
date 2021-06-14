@@ -82,7 +82,6 @@ Function Provision-New-Box--InstallPackages--Phase1
     scoop install imgburn                   # ImgBurn
     scoop install qbittorrent               # qbittorrent
     scoop install vscode                    # VS Code
-    scoop install sublime-text              # Sublime
     scoop install arduino                   # Arduino
     scoop install steam                     # Steam
     scoop install minecraft                 # Minecraft
