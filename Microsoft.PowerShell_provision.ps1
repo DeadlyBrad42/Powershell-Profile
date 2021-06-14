@@ -81,7 +81,6 @@ Function Provision-New-Box--InstallPackages--Phase1
     scoop install windirstat                # windirstat
     scoop install imgburn                   # ImgBurn
     scoop install qbittorrent               # qbittorrent
-    scoop install discord                   # Discord
     scoop install vscode                    # VS Code
     scoop install sublime-text              # Sublime
     scoop install arduino                   # Arduino
