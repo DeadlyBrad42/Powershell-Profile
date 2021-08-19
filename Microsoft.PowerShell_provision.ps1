@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 ## Provisioning Functions
 ################################################################################
 
@@ -62,7 +62,7 @@ Function Provision-New-Box
 Function Provision-New-Box--InstallPM
 {
     Write-Host "Installing Scoop package manager ..."
-    iwr -useb get.scoop.sh | iex
+    Invoke-WebRequest -useb get.scoop.sh | iex
     scoop bucket add extras
     scoop bucket add games
     scoop bucket add nerd-fonts
