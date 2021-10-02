@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 ## Provisioning Functions
 ################################################################################
 
@@ -62,7 +62,7 @@ Function Provision-New-Box
 Function Provision-New-Box--InstallPM
 {
     Write-Host "Installing Scoop package manager ..."
-    iwr -useb get.scoop.sh | iex
+    Invoke-WebRequest -useb get.scoop.sh | iex
     scoop bucket add extras
     scoop bucket add games
     scoop bucket add nerd-fonts
@@ -81,9 +81,7 @@ Function Provision-New-Box--InstallPackages--Phase1
     scoop install windirstat                # windirstat
     scoop install imgburn                   # ImgBurn
     scoop install qbittorrent               # qbittorrent
-    scoop install discord                   # Discord
     scoop install vscode                    # VS Code
-    scoop install sublime-text              # Sublime
     scoop install arduino                   # Arduino
     scoop install steam                     # Steam
     scoop install minecraft                 # Minecraft
