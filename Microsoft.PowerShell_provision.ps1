@@ -203,6 +203,7 @@ Function Provision-New-Box--ConfigurePrefs
     Write-Host "Configurating preferences ..."
     git config --global init.defaultBranch main
     git config --global alias.what status -sb
+    git config --global alias.grab "!git fetch && git pull"
     git config --global alias.andthis commit --amend --no-edit
     git config --global alias.thistoo commit --amend --no-edit
     Write-Host "... done!"
