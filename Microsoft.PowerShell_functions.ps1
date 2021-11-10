@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 ## Functions
 ################################################################################
 
@@ -191,10 +191,10 @@ function Test-Colors( ) {
   }
 }
 
-# Start Sublime
-function Sublime
-{
-    & "C:\Program Files\Sublime Text 2\sublime_text.exe" $args
+Function Reload-Powershell {
+    # Reload the profile & path variable (from: https://stackoverflow.com/a/31845512)
+    . $profile
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 }
 
 # Get Line of Code
@@ -212,10 +212,10 @@ function Lines-of-Code ($filetypes) # filetypes like `*.cs,*.json`
 }
 Set-Alias LoC Lines-of-Code
 
-Function Reload-Powershell {
-    # Reload the profile & path variable (from: https://stackoverflow.com/a/31845512)
-    . $profile
-    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+# Start Sublime
+function Sublime
+{
+    & "C:\Program Files\Sublime Text\sublime_text.exe" $args
 }
 
 # Get Uptime
