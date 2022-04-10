@@ -3,7 +3,7 @@
 ################################################################################
 
 # Custom prompt
-#   References:
+#   Inspiration:
 #    * https://gist.github.com/branneman/9660173
 function prompt
 {
@@ -22,7 +22,7 @@ function prompt
     # Grab current location
     $location = $(Get-Location).Path
 
-    # Check to see if we're in a git directory
+    # Check directory (& then parent-directory recursively...) to see if we're in a git directory
     $isGitRepo = ""
     do {
         if (Test-Path .git) {
@@ -84,7 +84,7 @@ function prompt
             $git_changesDisplay = "•"
         }
 
-        # Calculate length of displays (cleaner to just build the strings & test length)
+        # Calculate length of displays (cleaner to just re-build the strings here & test length)
         $leftCharCount = " [ $userNameDisplay$userAdminDisplay @$machineNameDisplay ] ".length
         $rightCharCount = "[ Ѱ$($git_changesDisplay) $($git_branchName)$($git_pushesDisplay)$($git_pullsDisplay) ] ".length
         $middleCharCount = $ui.WindowSize.Width - ($leftCharCount + $rightCharCount)
@@ -99,7 +99,7 @@ function prompt
         Write-Host (" $git_branchName") -nonewline -foregroundColor $colorForegroundPrimary
         Write-Host ($git_pushesDisplay) -nonewline -foregroundColor $colorGitPushes
         Write-Host ($git_pullsDisplay) -nonewline -foregroundColor $colorGitPulls
-        Write-Host (" ] ") -nonewline  -foregroundColor $colorForegroundSecondary
+        Write-Host (" ] ") -nonewline -foregroundColor $colorForegroundSecondary
     } else {
         # No alternate display, just send a newline
         Write-Host ("")
@@ -125,7 +125,7 @@ Register-EngineEvent PowerShell.Exiting –Action {
 } | Out-Null # This command outputs stuff, so this throws it away
 
 Function Test-Exit {
-    $terminalWidth =$ui.WindowSize.Width
+    $terminalWidth = $ui.WindowSize.Width
 
     if ($terminalWidth -gt 75) {
         Write-Host ('')
