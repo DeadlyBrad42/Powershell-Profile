@@ -2,7 +2,7 @@
 Microsoft.PowerShell_warppipes.ps1
 
 # This is apparently where Microsoft puts random SQL Stuff
-/Modules
+/Modules/PackageManagement
 
 # Another folder got created out of nowhere ¯\_(ツ)_/¯
-/Scripts
+/Scripts/InstalledScriptInfos
