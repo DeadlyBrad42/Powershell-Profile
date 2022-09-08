@@ -3,7 +3,7 @@
 #  support some of the more "advanced" Unicode characters I use
 
 # All Powershell Server clients should also run my profile script
-. "C:\Users\Brad\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1" -clientType "VT420"
+. "$PSScriptRoot\Microsoft.PowerShell_profile.ps1" -clientType "VT420"
 
 # Override the default prompt to better support VT420
 function prompt

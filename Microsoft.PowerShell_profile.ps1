@@ -31,10 +31,10 @@ if (-Not $clientType) {
 ################################################################################
 
 # General Functions
-. "$PSScriptRoot\Microsoft.PowerShell_functions.ps1"
+. "$PSScriptRoot\Scripts\Moose-Scripts\Microsoft.PowerShell_functions.ps1"
 
 # Shortcuts to other directories and network shares
-. "$PSScriptRoot\Microsoft.PowerShell_warppipes.ps1"
+. "$PSScriptRoot\Scripts\Moose-Scripts\Microsoft.PowerShell_warppipes.ps1"
 
 # Functions for provisioning new systems
-. "$PSScriptRoot\Microsoft.PowerShell_provision.ps1"
+. "$PSScriptRoot\Scripts\Moose-Scripts\Microsoft.PowerShell_provision.ps1"
