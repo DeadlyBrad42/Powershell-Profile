@@ -83,9 +83,15 @@ Function Provision-New-Box--InstallPackages--Phase1
     scoop install qbittorrent               # qbittorrent
     scoop install vscode                    # VS Code
     scoop install arduino                   # Arduino
+    scoop install cura                      # Cura
     scoop install steam                     # Steam
-    scoop install minecraft                 # Minecraft
+    # scoop install minetest                # Minecraft-clone
     scoop install github                    # GitHub app
+    scoop install fork
+    # scoop install act                     # Act - local GitHub actions (https://github.com/nektos/act)
+    #scoop install mysql-workbench
+    #scoop install eclipse-java
+    scoop install lazydocker                # Lazydocker (https://github.com/jesseduffield/lazydocker)
     scoop install postman                   # Postman
     scoop install ngrok                     # ngrok
     scoop install nvm                       # nvm, for node(s)
@@ -95,7 +101,10 @@ Function Provision-New-Box--InstallPackages--Phase1
     scoop install speccy                    # speecy
     scoop install firacode                  # Fira Code font
     scoop install figlet                    # Figlet
-    # scoop install mp3tag                  # Mp3tag
+    scoop install mp3tag                    # Mp3tag
+    # scoop install blender                 # Blender
+    # scoop install neofetch                # https://github.com/dylanaraps/neofetch
+    # scoop install filezilla
     Write-Host "... done!"
     Write-Host ""
 }
