@@ -348,8 +348,3 @@ function Fuck-You { param ([parameter(ValueFromPipeline=$True)][string] $in)
         Write-Host "Nothin' to kill here."
     }
 }
-
-function Switch-To-Explorer {
-    explorer .
-    exit
-}
