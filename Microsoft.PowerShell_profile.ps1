@@ -24,6 +24,7 @@ if (-Not $clientType) {
     Write-Host ("╰(❍ᴥ❍ʋ)") -nonewline -foregroundcolor Yellow
     Write-Host ("    <(Let's go kick their digital bootays!)") -nonewline
     Write-Host ("")
+    Write-Host ("")
 }
 
 ################################################################################
