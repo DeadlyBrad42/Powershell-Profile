@@ -7,7 +7,7 @@ Function Provision-New-Box
     $currentPrincipal = New-Object Security.Principal.WindowsPrincipal( [Security.Principal.WindowsIdentity]::GetCurrent() )
     $isAdmin = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
     if (-Not ($isAdmin)) {
-        Write-Host "ERROR: Running the provision script requires Administrative privileges."
+        Write-Error "ERROR: Running the provision script requires Administrative privileges."
         return
     }
 

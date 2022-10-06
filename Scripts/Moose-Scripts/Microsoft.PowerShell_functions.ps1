@@ -348,3 +348,12 @@ function Fuck-You { param ([parameter(ValueFromPipeline=$True)][string] $in)
         Write-Host "Nothin' to kill here."
     }
 }
+
+function Boot2-BIOS {
+    if (-Not ($isAdmin)) {
+        Write-Error "ERROR: Restarting the machine requires Administrative privileges."
+        return
+    }
+    # h/t: https://twitter.com/ADurrante/status/1578052630043140101
+    shutdown /r /fw /f /t 0
+}
