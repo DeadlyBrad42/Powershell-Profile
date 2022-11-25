@@ -20,6 +20,7 @@ if ($(Get-Location).Path -eq $home) {
 }
 
 if (-Not $clientType) {
+    Write-Host ("")
     Write-Host ("   | (• ◡•)|╯") -nonewline -foregroundcolor White
     Write-Host ("╰(❍ᴥ❍ʋ)") -nonewline -foregroundcolor Yellow
     Write-Host ("    <(Let's go kick their digital bootays!)") -nonewline
