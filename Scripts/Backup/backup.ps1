@@ -22,10 +22,12 @@ Param
   [parameter(Mandatory=$false)][string] $incremental = "false"
 )
 
+# Some configuration & stats-tracking
 $dateTimeFormat = "yyyy/MM/dd HH:mm(K)"
 $retryCount = 5
 $retryWait = 10
-
+$logDirectory = "C:\backup-logs"
+$enableLogging = Test-Path $logDirectory
 $timerTotal = New-Object -TypeName System.Diagnostics.Stopwatch
 
 # Look, I hate this, but if you try to pass a Powershell script an array of
@@ -34,6 +36,10 @@ $sourcesArray = $sources.Split(',')
 
 # Get a fresh timestamp for the directory name
 $runDate = Get-Date
+
+if($enableLogging) {
+  Start-Transcript -Append "$logDirectory\$(Get-Date $runDate -Format FileDateTimeUniversal).log"
+}
 
 Write-Host (" >> ") -nonewline -foregroundcolor "Cyan"
 Write-Host ("🏁 Back up started @ $(Get-Date -Format $dateTimeFormat)")
@@ -66,7 +72,6 @@ $sourcesArray | ForEach-Object {
   # Run the robocopy command
   Invoke-Command -ScriptBlock { robocopy `"$source`" `"$destinationPath`" /COPY:DAT /DCOPY:DAT /MIR /XJ /R:$retryCount /W:$retryWait }
 
-  # TODO: Logging to file? Errors? Successes?
   # TODO: Excluding directories & files? RecycleBin? Configurable for blockchain directories?
 
   $timerJob.Stop()
@@ -86,3 +91,7 @@ Write-Host (" >> ") -nonewline -foregroundcolor "Cyan"
 Write-Host ("🏆 Back up finished in ${timerTotalStr} (@ $(Get-Date -Format $dateTimeFormat)")
 Write-Host ("") # newline
 Write-Host ("") # newline
+
+if($enableLogging) {
+  Stop-Transcript
+}
