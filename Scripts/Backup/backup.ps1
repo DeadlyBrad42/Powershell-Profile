@@ -19,7 +19,7 @@ Param
 (
   [parameter(Mandatory=$true)][string] $sources,
   [parameter(Mandatory=$true)][string] $destination,
-  [parameter(Mandatory=$false)][string] $isNightly = "false"
+  [parameter(Mandatory=$false)][string] $incremental = "false"
 )
 
 $dateTimeFormat = "yyyy/MM/dd HH:mm(K)"
@@ -52,7 +52,7 @@ $sourcesArray | ForEach-Object {
   $destinationSourceDirectoryName = $source.replace(":", "").replace("\", "_").TrimEnd('_')
 
   # Determine the name of the timestamped directory
-  $timestampDirectoryName = If ($isNightly -match "true") { "latest" } Else { Get-Date $runDate -Format FileDateTimeUniversal }
+  $timestampDirectoryName = If ($incremental -match "true") { "latest" } Else { Get-Date $runDate -Format FileDateTimeUniversal }
 
   # Build the destination path based on the machine, source directory name, & backup type
   $destinationPath = "$destination\$userName\$hostName\$timestampDirectoryName\$destinationSourceDirectoryName"
@@ -64,15 +64,13 @@ $sourcesArray | ForEach-Object {
   $timerJob.Start()
 
   # Run the robocopy command
-  Invoke-Command -ScriptBlock { robocopy `"$source`" `"$destinationPath`" /COPY:DAT /DCOPY:DAT /MIR /R:$retryCount /W:$retryWait }
+  Invoke-Command -ScriptBlock { robocopy `"$source`" `"$destinationPath`" /COPY:DAT /DCOPY:DAT /MIR /XJ /R:$retryCount /W:$retryWait }
 
   # TODO: Logging to file? Errors? Successes?
   # TODO: Excluding directories & files? RecycleBin? Configurable for blockchain directories?
-  # TODO: Skip Junctions & symlinks?
 
   $timerJob.Stop()
   $timerJobStr = "$([Math]::Truncate([decimal]$timerTotal.Elapsed.TotalHours))h $($timerJob.Elapsed.Minutes)m $($timerJob.Elapsed.Seconds)s $($timerJob.Elapsed.Milliseconds)ms"
-
 
   Write-Host (" >> ") -nonewline -foregroundcolor "Cyan"
   Write-Host ("✅ Back up for $source completed in ${timerJobStr} (@ $(Get-Date -Format $dateTimeFormat))")
