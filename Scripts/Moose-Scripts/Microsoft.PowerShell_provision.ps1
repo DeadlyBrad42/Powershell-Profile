@@ -75,33 +75,38 @@ Function Provision-New-Box--InstallPM
 Function Provision-New-Box--InstallPackages--Phase1
 {
     Write-Host "Installing Scoop packages ..."
-    scoop install firefox                   # firefox
-    # scoop install googlechrome            # googlechrome
-    scoop install chromium                  # chromium
-    scoop install windirstat                # windirstat
-    scoop install imgburn                   # ImgBurn
-    scoop install qbittorrent               # qbittorrent
-    scoop install vscode                    # VS Code
-    scoop install arduino                   # Arduino
-    scoop install cura                      # Cura
-    scoop install steam                     # Steam
+    scoop install firefox
+    # scoop install googlechrome
+    scoop install chromium
+    scoop install windirstat
+    scoop install imgburn
+    scoop install qbittorrent
+    scoop install vscode
+    scoop install arduino
+    scoop install cura
+    scoop install steam
     # scoop install minetest                # Minecraft-clone
     scoop install github                    # GitHub app
-    scoop install fork
+    scoop install fork                      # git client
     # scoop install act                     # Act - local GitHub actions (https://github.com/nektos/act)
     #scoop install mysql-workbench
     #scoop install eclipse-java
     scoop install lazydocker                # Lazydocker (https://github.com/jesseduffield/lazydocker)
-    scoop install postman                   # Postman
-    scoop install ngrok                     # ngrok
-    scoop install nvm                       # nvm, for node(s)
-    scoop install xmousebuttoncontrol       # X-Mouse Button Control
-    scoop install vlc                       # VLC
-    scoop install handbrake                 # Handbrake
-    scoop install speccy                    # speecy
-    scoop install firacode                  # Fira Code font
-    scoop install figlet                    # Figlet
-    scoop install mp3tag                    # Mp3tag
+    scoop install postman
+    scoop install ngrok
+    scoop install nvm                       # for node(s)
+    scoop install winscp                    # for scp
+    scoop install xmousebuttoncontrol
+    scoop install vlc
+    scoop install handbrake
+    # scoop install openshot
+    # scoop install syncthing
+    # scoop install syncthingtray
+    scoop install speccy
+    scoop install firacode
+    scoop install figlet
+    # scoop install gifcam
+    scoop install mp3tag
     # scoop install blender                 # Blender
     # scoop install neofetch                # https://github.com/dylanaraps/neofetch
     # scoop install filezilla
