@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 ## Provisioning Functions
 ################################################################################
 
@@ -7,7 +7,7 @@ Function Provision-New-Box
     $currentPrincipal = New-Object Security.Principal.WindowsPrincipal( [Security.Principal.WindowsIdentity]::GetCurrent() )
     $isAdmin = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
     if (-Not ($isAdmin)) {
-        Write-Host "ERROR: Running the provision script requires Administrative privileges."
+        Write-Error "ERROR: Running the provision script requires Administrative privileges."
         return
     }
 
@@ -48,6 +48,7 @@ Function Provision-New-Box
     Provision-New-Box--InstallPackages--Phase2
     Provision-New-Box--ConfigurePackages
     Provision-New-Box--InstallWinPackages
+    Provision-New-Box--ConfigurePrefs
 
     Write-Host ""
     Write-Host ""
@@ -61,7 +62,7 @@ Function Provision-New-Box
 Function Provision-New-Box--InstallPM
 {
     Write-Host "Installing Scoop package manager ..."
-    iwr -useb get.scoop.sh | iex
+    Invoke-WebRequest -useb get.scoop.sh | iex
     scoop bucket add extras
     scoop bucket add games
     scoop bucket add nerd-fonts
@@ -74,27 +75,41 @@ Function Provision-New-Box--InstallPM
 Function Provision-New-Box--InstallPackages--Phase1
 {
     Write-Host "Installing Scoop packages ..."
-    scoop install firefox                   # firefox
-    # scoop install googlechrome            # googlechrome
-    scoop install chromium                  # chromium
-    scoop install windirstat                # windirstat
-    scoop install imgburn                   # ImgBurn
-    scoop install qbittorrent               # qbittorrent
-    scoop install discord                   # Discord
-    scoop install vscode                    # VS Code
-    scoop install sublime-text              # Sublime
-    scoop install arduino                   # Arduino
-    scoop install steam                     # Steam
-    scoop install minecraft                 # Minecraft
+    scoop install firefox
+    # scoop install googlechrome
+    scoop install chromium
+    scoop install windirstat
+    scoop install imgburn
+    scoop install qbittorrent
+    scoop install vscode
+    scoop install arduino
+    scoop install cura
+    scoop install steam
+    # scoop install minetest                # Minecraft-clone
     scoop install github                    # GitHub app
-    scoop install postman                   # Postman
-    scoop install ngrok                     # ngrok
-    scoop install nvm                       # nvm, for node(s)
-    scoop install xmousebuttoncontrol       # X-Mouse Button Control
-    scoop install vlc                       # VLC
-    scoop install handbrake                 # Handbrake
-    scoop install speccy                    # speecy
-    scoop install firacode                  # Fira Code font
+    scoop install sourcetree                # git client
+    # scoop install act                     # Act - local GitHub actions (https://github.com/nektos/act)
+    #scoop install mysql-workbench
+    #scoop install eclipse-java
+    scoop install lazydocker                # Lazydocker (https://github.com/jesseduffield/lazydocker)
+    scoop install postman
+    scoop install ngrok
+    scoop install nvm                       # for node(s)
+    scoop install winscp                    # for scp
+    scoop install xmousebuttoncontrol
+    scoop install vlc
+    scoop install handbrake
+    # scoop install openshot
+    # scoop install syncthing
+    # scoop install syncthingtray
+    scoop install speccy
+    scoop install firacode
+    scoop install figlet
+    # scoop install gifcam
+    scoop install mp3tag
+    # scoop install blender                 # Blender
+    # scoop install neofetch                # https://github.com/dylanaraps/neofetch
+    # scoop install filezilla
     Write-Host "... done!"
     Write-Host ""
 }
@@ -178,16 +193,31 @@ Function Provision-New-Box--InstallWinPackages
     Write-Host "Normally, this should be called from the 'InstallPackages' step, but"
     Write-Host "The windows store doesn't yet support automated downloads. But here's the list:"
 
+    # You can run this in an elevated command prompt to see what's currently installed:
+    #   Get-AppxPackage -AllUsers | Select Name, PackageFullName
     Write-Host "[ ]  OneNote  [Microsoft.Office.OneNote]"
     Write-Host "[ ]  To Do  [Microsoft.Todos]"
     Write-Host "[ ]  Minecraft for Windows 10  [Microsoft.MinecraftUWP]"
     Write-Host "[ ]  Slack  [91750D7E.Slack]"
-    Write-Host "[ ]  Paint.net [dotPDNLLC.paint.net]"
-    Write-Host "[ ]  Simplenote [22490Automattic.Simplenote]"
-    Write-Host "[ ]  Windows Terminal [WindowsTerminalDev]"
-    Write-Host "[ ]  File Manager [Microsoft.WindowsFileManager]"
+    Write-Host "[ ]  Paint.net  [dotPDNLLC.paint.net]"
+    Write-Host "[ ]  Simplenote  [22490Automattic.Simplenote]"
+    Write-Host "[ ]  Windows Terminal  [WindowsTerminalDev]"
+    Write-Host "[ ]  File Manager  [Microsoft.WindowsFileManager]"
+    Write-Host "[ ]  Python  [PythonSoftwareFoundation.Python.3.9]"
 
     Write-Host "Well, the was awkward. Anyways..."
+    Write-Host "... done!"
+    Write-Host ""
+}
+
+Function Provision-New-Box--ConfigurePrefs
+{
+    Write-Host "Configurating preferences ..."
+    git config --global init.defaultBranch main
+    git config --global alias.what status -sb
+    git config --global alias.grab "!git fetch && git pull"
+    git config --global alias.andthis commit --amend --no-edit
+    git config --global alias.thistoo commit --amend --no-edit
     Write-Host "... done!"
     Write-Host ""
 }
