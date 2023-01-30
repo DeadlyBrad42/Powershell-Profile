@@ -87,7 +87,7 @@ Function Provision-New-Box--InstallPackages--Phase1
     scoop install steam
     # scoop install minetest                # Minecraft-clone
     scoop install github                    # GitHub app
-    scoop install fork                      # git client
+    scoop install sourcetree                # git client
     # scoop install act                     # Act - local GitHub actions (https://github.com/nektos/act)
     #scoop install mysql-workbench
     #scoop install eclipse-java
